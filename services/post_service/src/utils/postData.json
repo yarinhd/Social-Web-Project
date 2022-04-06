@@ -1,0 +1,6 @@
+{
+    "user": "UserObjId",
+    "text": "",
+    "likes": ["UserObjId"],
+    "comments": ["CommentsObjId"]
+}

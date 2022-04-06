@@ -1,0 +1,67 @@
+services:
+  jarin-mongo:
+    container_name: jarin-mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - 'mongo-volume:/data/db'
+  user_service:
+    container_name: user_service
+    image: user_service
+    build:
+      context: ../services/user_service
+      dockerfile: Dockerfile
+    environment:
+      DB_SERVER: jarin-mongo
+      DB_NAME: socialweb
+      PORT: 3001
+    ports:
+      - '3001:3001'
+    depends_on:
+      - jarin-mongo
+  post_service:
+    container_name: post_service
+    image: post_service
+    build:
+      context: ../services/post_service
+      dockerfile: Dockerfile
+    environment:
+      DB_SERVER: jarin-mongo
+      DB_NAME: jarin
+      PORT: 3002
+    ports:
+      - '3002:3002'
+    depends_on:
+      - user_service
+  comment_service:
+    container_name: comment_service
+    image: comment_service
+    build:
+      context: ../services/comment_service
+      dockerfile: Dockerfile
+    environment:
+      DB_SERVER: jarin-mongo
+      DB_NAME: jarin
+      PORT: 3003
+    ports:
+      - '3003:3003'
+    depends_on:
+      - post_service
+    compositor_service:
+  container_name: compositor_service
+  image: compositor_service
+  build:
+    context: ../compositor
+    dockerfile: Dockerfile
+  environment:
+    PORT: 3004
+  ports:
+    - '3004:3004'
+  depends_on:
+    - user_service
+    - post_service
+    - comment_service
+volumes:
+  mongo-volume: null
+  

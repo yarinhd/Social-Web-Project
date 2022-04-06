@@ -1,0 +1,7 @@
+{
+    "user": "userObjId",
+    "text": "D Bex Apartment",
+    "likes": ["userObjId"],
+    "comments": ["commentObjId"]
+
+}

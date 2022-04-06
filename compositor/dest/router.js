@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.appRouter = void 0;
+const express_1 = require("express");
+const comment_router_1 = require("./comment/comment.router");
+const config_1 = require("./config");
+const post_router_1 = require("./post/post.router");
+const user_router_1 = require("./user/user.router");
+exports.appRouter = (0, express_1.Router)();
+exports.appRouter.use(config_1.config.endpoints.user.api, user_router_1.userRouter);
+exports.appRouter.use(config_1.config.endpoints.post.api, post_router_1.postRouter);
+exports.appRouter.use(config_1.config.endpoints.comment.api, comment_router_1.commentRouter);
